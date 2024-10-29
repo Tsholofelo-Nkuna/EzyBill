@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EzyBill.DAL.Repositories.Base
 {
-    public class Repository<TEnity> : IRepository<TEnity> where TEnity : class, IBaseEntity
+    public class Repository<TEnity> : IRepository<TEnity, string> where TEnity : class, IBaseEntity<string>
     {
         private readonly DbContext _dbContext;
         private readonly DbSet<TEnity> _set;
@@ -18,7 +18,7 @@ namespace EzyBill.DAL.Repositories.Base
           _set = context.Set<TEnity>();
            
         }
-        public virtual void Delete(IEnumerable<Guid> identifiers, Guid userId)
+        public virtual void Delete(IEnumerable<Guid> identifiers, string userId)
         {
             var removed = this
             ._set.Where(x => identifiers.Contains(x.Id))
@@ -35,7 +35,7 @@ namespace EzyBill.DAL.Repositories.Base
             return this._set.AsNoTracking().Where(predicate);
         }
 
-        public void Insert(List<TEnity> entities, Guid userId)
+        public void Insert(List<TEnity> entities, string userId)
         {
             entities.ForEach(x =>
             {
@@ -50,7 +50,7 @@ namespace EzyBill.DAL.Repositories.Base
             return this._dbContext.SaveChanges();
         }
 
-        public void Update(List<TEnity> entities, Guid userId)
+        public void Update(List<TEnity> entities, string userId)
         {
             entities.ForEach(x =>
             {

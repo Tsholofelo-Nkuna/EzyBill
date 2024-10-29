@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace EzyBill.DAL.Entities.Base
 {
-    public class BaseEntity : IBaseEntity
+    public class BaseEntity : IBaseEntity<string>
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public Guid CreatedBy { get; set; }
+        public string CreatedBy { get; set; } = string.Empty;
         public bool IsDeleted { get ; set; } = false;
         public DateTime? ModifiedOn { get; set; } = null;
-        public Guid? ModifiedBy { get; set; } = null;
+        public string? ModifiedBy { get; set; } = null;
     }
 }

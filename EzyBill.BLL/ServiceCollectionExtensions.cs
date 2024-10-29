@@ -1,12 +1,8 @@
 ﻿using EzyBill.BLL.Interfaces;
 using EzyBill.BLL.Services;
+using EzyBill.DAL;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EzyBill.BLL
 {
@@ -14,7 +10,10 @@ namespace EzyBill.BLL
     {
         public static IServiceCollection AddEzyBillServices(this IServiceCollection services)
         {
+            services.AddEzyBillRepos();
             services.AddScoped<IBillingService, BillingService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IProductService, ProductService>();
             return services;
         }
     }

@@ -13,7 +13,8 @@ namespace EzyBill.API
 
             // Add services to the container.
             builder.Services.AddDbContext<WebDbContext>(optionsAction => optionsAction.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-           // builder.Services.AddEzyBillRepos();
+            builder.Services.AddScoped<ICurrentUserContext<string>, CurrentUserContext>();
+            builder.Services.AddEzyBillServices();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

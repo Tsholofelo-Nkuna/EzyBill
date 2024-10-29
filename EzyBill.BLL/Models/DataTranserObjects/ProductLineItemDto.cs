@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace EzyBill.BLL.Models.DataTranserObjects
 {
-    public class ProductLineItemDto
+    public class ProductLineItemDto : ProductDto
     {
-        public string Name { get; set; } = string.Empty;
         public int Qty { get; set; }
-        public double Price { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public Guid ProductId { get; set; }
+      
     }
 }

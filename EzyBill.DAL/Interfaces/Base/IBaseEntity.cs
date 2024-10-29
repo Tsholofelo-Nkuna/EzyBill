@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace EzyBill.DAL.Interfaces.Base
 {
-    public interface IBaseEntity 
+    public interface IBaseEntity<TUserKey> 
     {
         Guid Id { get; set; }
         DateTime CreatedOn { get; set; }
-        Guid CreatedBy { get; set; }
+        TUserKey CreatedBy { get; set; }
         DateTime? ModifiedOn { get; set; }
-        Guid? ModifiedBy { get; set; }
+        TUserKey? ModifiedBy { get; set; }
         bool IsDeleted { get; set; }
     }
 }
