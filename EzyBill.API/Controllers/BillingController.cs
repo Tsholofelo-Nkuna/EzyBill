@@ -20,7 +20,7 @@ namespace EzyBill.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public IEnumerable<InvoiceDto> GetInvoices([FromBody] InvoiceFilterDto filters)
+        public IEnumerable<InvoiceDto> GetInvoices(InvoiceFilterDto filters)
         {
             try
             {
@@ -30,6 +30,19 @@ namespace EzyBill.API.Controllers
             {
                 _logger.LogError($"{ex.Message}\n Input parametets: {JsonSerializer.Serialize(filters)}");
                 return Enumerable.Empty<InvoiceDto>();
+            }
+        }
+
+        [HttpPost("[action]")]
+        public InvoiceDto? GenerateInvoice([FromQuery] Guid cId, [FromBody] IEnumerable<Guid> productIdentifiers) {
+            try
+            {
+                return this._billingService.GenerateInvoice(cId, productIdentifiers);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError($"{ex.Message}\n Input(s):\n{cId}\n{JsonSerializer.Serialize(productIdentifiers)}");
+                return null;
             }
         }
 

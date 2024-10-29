@@ -34,8 +34,16 @@ namespace EzyBill.BLL.Services
 
         public InvoiceDto? GenerateInvoice(Guid customerId, IEnumerable<Guid> productIdentifiers)
         {
+            var customer = _customerRepository.
+                Get(x => !x.IsDeleted && x.Id == customerId)
+                .Include(x => x.Invoices).FirstOrDefault();
+            if( customer == null )
+            {
+                return null;
+            }
             var invoicedProducts = this._productRepository
                     .Get(x => productIdentifiers.Contains(x.Id)).ToList();
+           
             var productIdFrequency = productIdentifiers
                 .GroupBy(x => x)
                 .Select(x => new { ProductId = x.Key, Frequency = x.Count() });
@@ -45,12 +53,11 @@ namespace EzyBill.BLL.Services
             var invoiceE = new InvoiceEntity
             {
                 AmountDue = invoiceAmount,
-                Customer = _customerRepository.Get(x => !x.IsDeleted && x.Id == customerId).FirstOrDefault(),
             };
-            var insterted = new List<InvoiceEntity> { invoiceE };
-            this._invoiceRepository.Insert(insterted, _currentUserContext.CurrentUserId);
             
-            var newInvoiceId = insterted.ElementAtOrDefault(0)!.Id;
+            customer.Invoices.Add(invoiceE);
+            this._customerRepository.Update(new List<CustomerEntity> { customer }, this._currentUserContext.CurrentUserId);
+            var newInvoiceId = invoiceE.Id;
             var invoiceProducts = productIdentifiers
                 .Where(pId => invoicedProducts.Any(i => i.Id == pId)) //filter out non-existing products
                 .Select(x => new InvoiceProductEntity
@@ -64,14 +71,15 @@ namespace EzyBill.BLL.Services
             var instertedProductsForInvoice = this
                 ._productRepository
                 .Get(x => invoiceProducts.Select(x => x.ProductId).Contains(x.Id)) //x.ProductId in this line will only be set if this._invoiceProductRepository.SaveChanges() succeeds;
-                .AsEnumerable();
+                .ToList();
             var productQty = this._invoiceProductRepository
                 .Get(x => x.InvoiceId == newInvoiceId)
                 .GroupBy(x => x.ProductId)
-                .Select(x => new { ProductId = x.Key, Qty = x.Count() });
+                .Select(x => new { ProductId = x.Key, Qty = x.Count() })
+                .AsEnumerable().ToList();
            var invoiceDto = new InvoiceDto
             {
-                CustomerName = invoiceE?.Customer?.Name ?? string.Empty,
+                
                 InvoicedProducts = instertedProductsForInvoice.Select(p => new ProductLineItemDto
                 {
                     Description = p.Description,
@@ -88,7 +96,10 @@ namespace EzyBill.BLL.Services
         public IEnumerable<InvoiceDto> GetInvoices(InvoiceFilterDto filter)
         {
             var invoiceQuery = this
-                 ._invoiceRepository.Get(x => !x.IsDeleted && x.CreatedOn >= filter.StartDate && x.CreatedOn <= filter.EndDate);
+                 ._invoiceRepository
+                 .Get(x => !x.IsDeleted && x.CreatedOn >= filter.StartDate && x.CreatedOn <= filter.EndDate)
+                 .Include(x => x.Customer)
+                 .AsQueryable();
 
             if (filter.PaymentStatus != null)
             {
@@ -104,8 +115,7 @@ namespace EzyBill.BLL.Services
 
             }
             var customerInvoices = invoiceQuery
-                .Include(x => x.Customer)
-                .ThenInclude(x => x.Address)
+                
                 .AsEnumerable()
                 .Select(x => new InvoiceDto
                 {

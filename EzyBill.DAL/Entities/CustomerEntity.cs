@@ -15,6 +15,7 @@ namespace EzyBill.DAL.Entities
         public string Email {  get; set; } = string.Empty ;
         public string Phone { get; set; } = string.Empty;
         public AddressEntity? Address { get; set; }
+        public List<InvoiceEntity> Invoices { get; set; } = Enumerable.Empty<InvoiceEntity>().ToList();
 
     }
 }
