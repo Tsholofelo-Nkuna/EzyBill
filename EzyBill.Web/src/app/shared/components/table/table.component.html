@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="bg-body-tertiary rounded my-2 p-2">
+    <div class="my-2"><button class="btn btn-primary" (click)="newClick.emit()">New</button></div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let colConfig of columnConfig">
+            {{colConfig.label}}
+          </th>
+          <th *ngIf="!readonly"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="records.length ==0">
+          <td [attr.colspan]="columnConfig.length" class="text-center">No Data</td>
+        </tr>
+        <tr *ngFor="let rec of records; let indexOfEdit = index;">
+          <td *ngFor="let col of columnConfig" [class.bg-body-tertiary] ="editIndex === indexOfEdit">
+            <ng-container *ngTemplateOutlet="tableColTemplate; context {$implicit: col, tableRecord: rec, indexOfEdit}"></ng-container>
+          </td>
+          <td *ngIf="!readonly" [class.bg-body-tertiary]="editIndex === indexOfEdit">
+            <em title="edit" (click)="editIndex = indexOfEdit;onEditClick(rec);" class="bi bi-pencil me-3 app-cursor-pointer app-link-color-primary"></em>
+            <em title="cancel" *ngIf="editIndex === indexOfEdit" (click)="editIndex=-1;" class="bi bi-x-circle text-secondary me-3 app-cursor-pointer"></em>
+            <em title="delete" (click)="deleteClick.emit(rec);" *ngIf="editIndex !== indexOfEdit" class="bi bi-trash text-danger me-3  app-cursor-pointer"></em>
+            <em title="save" (click) = "saveClick.emit(editModel)" *ngIf="editIndex == indexOfEdit" class="bi bi-floppy-fill text-primary app-cursor-pointer"></em>     
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #tableColTemplate let-colConfig let-tableRecord="tableRecord" let-indexOfEdit="indexOfEdit">
+  <ng-container *ngIf="readonly || editIndex !== indexOfEdit">
+    <span> {{tableRecord[colConfig.key]}}</span>
+  </ng-container>
+  <ng-container *ngIf="!readonly && editIndex == indexOfEdit">
+    <ng-container [ngSwitch]="colConfig.controlType">
+      <ng-container *ngSwitchCase="'input'">
+        <input class="form-control" [ngModel]="tableRecord[colConfig.key]" (ngModelChange)="onRecordColumnChange(colConfig.key, $event)"/>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>

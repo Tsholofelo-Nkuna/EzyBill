@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-black-50">Search</h5>
+       <app-form #appForm="appForm"
+                 [inputFields]="filterFields"
+                 [colClass]="'col-4'">
+       </app-form>
+    </div>
+    <div class="card-footer">
+      <button (click)="filterClick.emit(appForm.formValue)" class="btn btn-primary me-2">Filter</button>
+      <button (click)="appForm.formGroup.reset()" class="btn btn-outline-secondary">Reset</button>
+    </div>
+  </div>
+</div>

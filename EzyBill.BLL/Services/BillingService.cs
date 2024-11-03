@@ -70,7 +70,7 @@ namespace EzyBill.BLL.Services
             this._invoiceProductRepository.SaveChanges();
             var instertedProductsForInvoice = this
                 ._productRepository
-                .Get(x => invoiceProducts.Select(x => x.ProductId).Contains(x.Id)) //x.ProductId in this line will only be set if this._invoiceProductRepository.SaveChanges() succeeds;
+                .Get(x => invoiceProducts.Select(x => x.ProductId).Contains(x.Id))
                 .ToList();
             var productQty = this._invoiceProductRepository
                 .Get(x => x.InvoiceId == newInvoiceId)

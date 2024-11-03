@@ -3,11 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzyBill.API", "EzyBill.API\EzyBill.API.csproj", "{C7091FEE-F5AA-43A4-8359-7ABEDCECC569}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzyBill.API", "EzyBill.API\EzyBill.API.csproj", "{C7091FEE-F5AA-43A4-8359-7ABEDCECC569}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzyBill.DAL", "EzyBill.DAL\EzyBill.DAL.csproj", "{7BAC2AAA-0E56-4D8F-94AB-6FA8D94056AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzyBill.DAL", "EzyBill.DAL\EzyBill.DAL.csproj", "{7BAC2AAA-0E56-4D8F-94AB-6FA8D94056AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzyBill.BLL", "EzyBill.BLL\EzyBill.BLL.csproj", "{BD7A8467-FC94-46D9-9341-C43029AD7360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EzyBill.BLL", "EzyBill.BLL\EzyBill.BLL.csproj", "{BD7A8467-FC94-46D9-9341-C43029AD7360}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "EzyBill.Web", "EzyBill.Web\", "{A89CCFEC-FCF8-4138-9ADA-8B887B5B04B9}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52981"
+		Debug.AspNetCompiler.PhysicalPath = "EzyBill.Web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52981\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52981"
+		Release.AspNetCompiler.PhysicalPath = "EzyBill.Web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52981\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52981"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +47,10 @@ Global
 		{BD7A8467-FC94-46D9-9341-C43029AD7360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD7A8467-FC94-46D9-9341-C43029AD7360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD7A8467-FC94-46D9-9341-C43029AD7360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A89CCFEC-FCF8-4138-9ADA-8B887B5B04B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89CCFEC-FCF8-4138-9ADA-8B887B5B04B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89CCFEC-FCF8-4138-9ADA-8B887B5B04B9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89CCFEC-FCF8-4138-9ADA-8B887B5B04B9}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

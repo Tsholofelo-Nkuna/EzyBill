@@ -1,5 +1,6 @@
 ﻿using EzyBill.BLL.Interfaces;
 using EzyBill.BLL.Models.DataTranserObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -8,7 +9,7 @@ using System.Text.Json;
 namespace EzyBill.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class BillingController : ControllerBase
     {
         private readonly IBillingService _billingService;

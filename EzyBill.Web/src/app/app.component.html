@@ -1,0 +1,76 @@
+<div class="app-layout">
+  <div class="nav justify-content-between container-fluid position-sticky bg-primary-subtle shadow-sm position-sticky top-0">
+    <div class="nav-item">
+      <a class="nav-link text-white fw-bold fs-5"><span class="badge border border-primary-subtle text-primary" style="margin-right:0.1rem;">E</span>zy bill</a>
+    </div>
+    <div class="nav-item" ngbDropdown>
+      <div class="nav-link text-white d-inline-flex align-items-center" style="cursor:pointer" ngbDropdownToggle><div style="width:20px; height:20px" class="d-inline-flex rounded-circle bg-light border-white me-1"></div><span class="text-primary">{{username}}</span></div>
+      <div ngbDropdownMenu>
+        <div ngbDropdownItem>
+          Profile settings
+        </div>
+        <div ngbDropdownItem>
+          Manage password
+        </div>
+        <div ngbDropdownItem>Sign out</div>
+      </div>
+    </div>
+  </div>
+  <div class="app-content-layout mt-1">
+    <div class = "app-sidebar bg-light">
+      <div ngbAccordion>
+        <ng-container *ngFor="let menuItem of sidebarMenuItems; let i = index;">
+          <div #sidebarMenuAccordianItem ngbAccordionItem ="app-sidebar-item-{{i}}" [disabled]="menuItem.children.length === 0">
+            <div ngbAccordionHeader>
+              <ng-container *ngIf="menuItem.children.length > 0">
+                <button ngbAccordionButton>{{menuItem.title}}</button>
+              </ng-container>
+              <ng-container *ngIf="menuItem.children.length === 0">
+                <a #sideBarAccordToggle
+                   (click)="onSidebarMenuItemClick(sideBarAccordToggle.getAttribute('id'))"
+                   [id]="'app-sidebar-item'+i"
+                   [routerLink]="[menuItem.link]" ngbAccordionToggle
+                   class="nav-link py-3 ps-3 text-decoration-none"
+                   [class.bg-primary-subtle]="sideBarAccordToggle.getAttribute('id') ===selectedSideBarItemId"
+                   [class.text-primary]="sideBarAccordToggle.getAttribute('id') ===selectedSideBarItemId">
+                  {{menuItem.title}}
+                </a>
+              </ng-container>
+            </div>
+            <div ngbAccordionCollapse>
+              <div ngbAccordionBody class="nav nav-tabs flex-column">
+                <ng-template>
+                  <div *ngFor="let childItem of menuItem.children;let j = index;" class="nav-item">
+                    <a #sidbarChildItemClick
+                       (click)="onSidebarMenuItemClick(sidbarChildItemClick.getAttribute('id'))"
+                       [id]="'app-sidebar-item'+i+'-'+j"
+                       class="nav-link text-primary"
+                       [routerLink]="[childItem.link]">{{childItem.title}}</a>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="app-main-content bg-body">
+      <div class="container-fluid py-3">
+        <div class="breadcrumb">
+          <div [routerLink]="['/']" *ngFor="let item of breadcrumbItems; let i = index;" class="breadcrumb-item btn btn-link" [class.active]="i == breadcrumbItems.length -1">
+            {{item | titlecase}}
+          </div>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<ng-template #accordionBtnTemplate let-menuItem>
+  
+</ng-template>
+
+<ng-template #accordionToggleTemplate let-menuItem>
+
+</ng-template>

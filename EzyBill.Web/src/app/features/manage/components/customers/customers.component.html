@@ -1,0 +1,25 @@
+<app-page-filter [filterFields]="filterFields"
+                  (filterClick)="onCustomerSearchClick($event)">
+</app-page-filter>
+<app-table [columnConfig]="customerTableColumnConfig"
+           [records]="customerRecords"
+           (newClick)="showNewCustomerModal=true"
+           [readonly]="false"
+           (saveClick)="onTableRecordSave($event)"
+           (deleteClick)="onTableRecordDelete($event)">
+</app-table>
+<app-modal
+           [(show)]="showNewCustomerModal"
+           title="New Customer"
+           [contentTemplate]="newCustomerFormTemplate"
+           [templateContext]="newCustomerModel"
+           (okClick)="onSaveNewCustomer($event)"
+           okText="Save"></app-modal>
+
+<ng-template #newCustomerFormTemplate>
+  <app-form #appForm ="appForm"
+            [inputFields]="customerFormFields"
+            [colClass]="'col-12'"
+            (appFormChange)="newCustomerModel = $event">
+  </app-form>
+</ng-template>

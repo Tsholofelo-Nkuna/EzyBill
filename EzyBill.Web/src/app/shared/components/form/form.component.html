@@ -1,0 +1,24 @@
+<div class="container">
+
+  <div *ngIf="inputFields.length > 0" [formGroup]="formGroup">
+    <div class="row">
+      <ng-container *ngFor="let fConfig of inputFields">
+        <div class="{{colClass}} gy-2">
+          <div class="row">
+            <ng-container *ngTemplateOutlet="formControlTemplate; context {$implicit: fConfig}"></ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-template #formControlTemplate let-fieldConfig>
+    <ng-container [ngSwitch]="fieldConfig.controlType">
+      <ng-container *ngSwitchCase="'input'">
+        <label class="col-4 col-form-label text-end">{{fieldConfig.label}}</label>
+        <div class="col-8">
+          <input [name]="fieldConfig.key" class="form-control" [formControl]="getControl(fieldConfig.key)" />
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>

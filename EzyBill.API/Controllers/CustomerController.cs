@@ -1,12 +1,13 @@
 ﻿using EzyBill.BLL.Interfaces;
 using EzyBill.BLL.Models.DataTranserObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EzyBill.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize]
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;
