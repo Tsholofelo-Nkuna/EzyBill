@@ -11,5 +11,6 @@ namespace EzyBill.BLL.Models.DataTranserObjects
         public TData? Data { get; set;} = default(TData);
         public string Message { get; set; } = string.Empty;
         public IEnumerable<string > Errors { get; set; } = Enumerable.Empty<string>();
+        public bool Ok { get; set; }
     }
 }

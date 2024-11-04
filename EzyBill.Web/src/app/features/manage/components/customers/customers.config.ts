@@ -12,7 +12,7 @@ export class CustomersConfig{
   static customerTableColumnConfig: Array<InputField<ICustomerDto>> = [
     new InputField('Name', 'name', 'input'),
     new InputField('Email','email', 'input'),
-    new InputField('Phone No.', 'phone', 'input')
+    new InputField('Phone No.', 'phone', 'input'),
   ];
 
   static customerFormFields: Array<InputField<ICustomerDto>> = [

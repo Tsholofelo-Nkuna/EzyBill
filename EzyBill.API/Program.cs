@@ -20,6 +20,15 @@ namespace EzyBill.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddCors(config =>
+            {
+                config.AddDefaultPolicy(pC =>
+                {
+                    pC.AllowAnyOrigin();
+                    pC.AllowAnyMethod(); 
+                    pC.AllowAnyHeader();
+                });
+            });
             var jwtops = new JwtOptions
             {
                 Issuer = builder.Configuration["JwtOptions:Issuer"] ?? string.Empty,
@@ -90,7 +99,7 @@ namespace EzyBill.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -5,6 +5,11 @@ import { InvoicesComponent } from './components/invoices/invoices.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
+import { EffectsModule } from '@ngrx/effects';
+import { CustomersEffect } from './state/customers/customers.effect';
+import { StoreModule } from '@ngrx/store';
+import { customerReducer } from './state/customers/customers.reducer';
+import { managefeatureKey } from './state/manage-feature.state';
 
 let routes: Routes = [
   {
@@ -33,7 +38,9 @@ let routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule
-  ]
+    SharedModule,
+    EffectsModule.forFeature([CustomersEffect]),
+    StoreModule.forFeature(managefeatureKey, {customersViewState:customerReducer})
+  ],
 })
 export class ManageModule { }
