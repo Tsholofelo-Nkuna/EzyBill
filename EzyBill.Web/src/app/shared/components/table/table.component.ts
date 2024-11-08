@@ -15,13 +15,23 @@ export class TableComponent<TModel> {
   @Output() saveClick = new EventEmitter<TModel>();
   @Output() deleteClick = new EventEmitter<TModel>();
   editModel?: TModel;
-  editIndex = -1;
+  @Input() editIndex = -1;
+  @Input() loading = false;
+  @Output() editIndexChange = new EventEmitter<number>();
+  @Output() editClick = new EventEmitter();
 
-  onEditClick(recordToEdit: TModel){
+  onEditClick(recordToEdit: TModel, indexOfEdit: number){
+    this.editIndex = indexOfEdit;
+    this.editIndexChange.emit(this.editIndex);
+    this.editClick.emit();
     this.editModel = {...recordToEdit};
   }
 
   onRecordColumnChange(key: keyof TModel, newValue: any){
     this.editModel = {...this.editModel, [key]: newValue} as TModel;
+  }
+  onCancelClick(){
+     this.editIndex = -1;
+     this.editIndexChange.emit(this.editIndex);
   }
 }

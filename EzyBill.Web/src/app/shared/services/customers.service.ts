@@ -28,7 +28,7 @@ export class CustomersService extends ApiService{
      return this.httpClient.post<IResponseDto<boolean>>(`${this.url}/Update`, [customer]);
   }
 
-  deleteCustomer(id: string): Observable<IResponseDto<boolean>>{
-     return this.httpClient.post<IResponseDto<boolean>>(`${this.url}/Delete`, [id]);
+  deleteCustomer(ids: string[]): Observable<IResponseDto<boolean>>{
+     return this.httpClient.post<IResponseDto<boolean>>(`${this.url}/Delete`, ids);
   }
 }

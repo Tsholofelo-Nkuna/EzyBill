@@ -1,23 +1,35 @@
 <app-page-filter [filterFields]="filterFields"
-                  (filterClick)="onCustomerSearchClick($event)">
+                 (filterClick)="onCustomerSearchClick($event)">
 </app-page-filter>
+
+
 <app-table [columnConfig]="customerTableColumnConfig"
            [records]="customerRecords"
-           (newClick)="showNewCustomerModal=true"
+           (newClick)="onNewCustomerClick()"
            [readonly]="false"
            (saveClick)="onTableRecordSave($event)"
-           (deleteClick)="onTableRecordDelete($event)">
+           (deleteClick)="onTableRecordDelete($event)"
+           [editIndex]="computedEditIndexInput()"
+           (editIndexChange)="customerTableEditIndexSignal.set($event)"
+           (editClick)="onCustomerTableEditClick()"
+           [loading]="customerTableLoadingSignal()">
 </app-table>
-<app-modal
-           [(show)]="showNewCustomerModal"
+<app-modal [show]="!shouldCloseNewCustomerModalSignal()"
+           (showChange)="showNewCustomerModalSignal.set($event);"
            title="New Customer"
            [contentTemplate]="newCustomerFormTemplate"
            [templateContext]="newCustomerModel"
            (okClick)="onSaveNewCustomer($event)"
-           okText="Save"></app-modal>
+           okText="Save"
+           [loading]="showNewCustomerModalSignal() && !customerViewBusySignal().saveNewCustomerDone"
+           (closeClick)="onNewCustomerModalCloseClick()"
+           [alertVisible]="newCustomerAlertVisibleSignal()"
+           (alertVisibleChange)="newCustomerModalAlertVisibleSignal.set($event)"
+           [alertType]="newCustomerModalAlertType"
+           [alertMessage]="newCustomerAlertMessage"></app-modal>
 
 <ng-template #newCustomerFormTemplate>
-  <app-form #appForm ="appForm"
+  <app-form #appForm="appForm"
             [inputFields]="customerFormFields"
             [colClass]="'col-12'"
             (appFormChange)="newCustomerModel = $event">

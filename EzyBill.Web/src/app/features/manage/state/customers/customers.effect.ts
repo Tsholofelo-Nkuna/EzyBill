@@ -1,7 +1,7 @@
 import { Injectable, inject } from "@angular/core";
 import { CustomersService } from "../../../../shared/services/customers.service";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { addNewCustomer, addNewCustomerComplete, fecthCustomersComplete, fetchCustomers, updateCustomer, updateCustomerComplete } from "./customers.actions";
+import { addNewCustomer, addNewCustomerComplete, deleteCustomer, deleteCustomerComplete, fecthCustomersComplete, fetchCustomers, updateCustomer, updateCustomerComplete } from "./customers.actions";
 import { map, switchMap } from "rxjs";
 
 @Injectable()
@@ -33,6 +33,14 @@ export class CustomersEffect{
     switchMap(action => {
       return this._customerService.editCustomer(action.customer)
       .pipe(map(response => updateCustomerComplete({response})))
+    })
+  ));
+
+  $deleteCustomerEffect = createEffect(() => this.$actions.pipe(
+    ofType(deleteCustomer),
+    switchMap(action => {
+      return this._customerService.deleteCustomer(action.customerIdentifiers)
+              .pipe(map(response => deleteCustomerComplete({response})))
     })
   ));
 }

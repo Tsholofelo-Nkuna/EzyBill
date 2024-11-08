@@ -24,7 +24,8 @@ namespace EzyBill.API.Controllers
         public PageReponseDto<CustomerDto> GetCustomers(PagingPageQueryDto<CustomerDto> pageQuery){
             try
             {
-                var results = this._customerService.GetCustomers(pageQuery, out var count);
+                var results = this._customerService
+                    .GetCustomers(pageQuery, out var count);
                 return new PageReponseDto<CustomerDto> { Data = results, Message = Message.Success, Ok = true,TotalRecordCount = count };
             }
             catch (Exception ex)

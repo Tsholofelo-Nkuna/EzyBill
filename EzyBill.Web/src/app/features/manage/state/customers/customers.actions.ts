@@ -10,5 +10,5 @@ export const updateCustomer = createAction("[CustomerComponent] Update Customer"
 export const updateCustomerComplete = createAction("[CustomerComponent] Update Customer Complete", props<{response: IResponseDto<boolean>}>());
 export const addNewCustomer = createAction("[CustomerComponent] Add New Customer", props<{customer: ICustomerDto}>());
 export const addNewCustomerComplete = createAction("[CustomerComponent] Add New Customer Complete", props<{response: IResponseDto<boolean>}>());
-export const deleteCustomer = createAction("[CustomerComponent] Delete Customer", props<{customerIdentifiers: Array<number> }>);
+export const deleteCustomer = createAction("[CustomerComponent] Delete Customer", props<{customerIdentifiers: Array<string> }>());
 export const deleteCustomerComplete = createAction("[CustomerComponent] Delete Customer Complete", props<{response: IResponseDto<boolean>}>());
