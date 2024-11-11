@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { addNewCustomer, addNewCustomerComplete, deleteCustomer, deleteCustomerComplete, fecthCustomersComplete, fetchCustomers, updateCustomer, updateCustomerComplete } from '../../state/customers/customers.actions';
 import { Subscription } from 'rxjs';
 import { Actions, ofType } from '@ngrx/effects';
-import { customerPageBusyIndicatorSelector, selectCustomers } from '../../state/customers/customers.selectors';
+import { customerPageBusyIndicatorSelector, selectCustomers, selectTotalRecordCount } from '../../state/customers/customers.selectors';
 import { CustomersViewBusyIndicator, CustomersViewState } from '../../state/customers/customers.reducer';
 
 @Component({
@@ -27,7 +27,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
   showNewCustomerModalSignal = signal(false);
   saveNewCustomerClickedSignal = signal(false);
   newCustomerModel: ICustomerDto = {email:'',name:'',id:'',phone:''};
-  pageQuery : IPagingPageQueryDto<ICustomerDto> = {filters: {email:'', name: '', phone: ''},pageIndex: 1, pageSize: 30, totalRecordCount:0};
+  pageQuery : IPagingPageQueryDto<ICustomerDto> = {filters: {email:'', name: '', phone: ''},pageIndex: 1, pageSize: 10, totalRecordCount:0};
   subscriptions = new Subscription();
   customerViewBusySignal = signal<CustomersViewBusyIndicator>({
     customerFetchDone: false,
@@ -97,6 +97,16 @@ export class CustomersComponent implements OnInit, OnDestroy {
       
      })
    )
+
+   this.subscriptions.add(this._store.select(selectTotalRecordCount).subscribe(total => {
+       this.pageQuery = {...this.pageQuery, totalRecordCount: total ?? 0}
+
+   }));
+  }
+
+  onPageChange(pageNumber: number){
+    this.pageQuery = {...this.pageQuery, pageIndex: pageNumber};
+    this._store.dispatch(fetchCustomers({pageQuery: this.pageQuery}));
   }
   onCustomerTableEditClick(){
     this.customerViewBusySignal.update(x => ({...x, customerUpdateDone : false}));

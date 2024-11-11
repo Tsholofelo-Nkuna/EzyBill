@@ -15,3 +15,4 @@ export const selectCustomers = createSelector(manageFeatureSelector, state => {
   return state.customersViewState.customers
  });
 
+ export const selectTotalRecordCount = createSelector(manageFeatureSelector, state => state.customersViewState.totalRecordCount);

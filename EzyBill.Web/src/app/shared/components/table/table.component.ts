@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InputField } from '../../models/input-field.model';
+import { IPagingPageQueryDto } from '../../interfaces/paging-page-query.dto';
 
 @Component({
   selector: 'app-table',
@@ -19,7 +20,8 @@ export class TableComponent<TModel> {
   @Input() loading = false;
   @Output() editIndexChange = new EventEmitter<number>();
   @Output() editClick = new EventEmitter();
-
+  @Input() pagingPageQuery: IPagingPageQueryDto<Partial<TModel>> = {filters: null, pageIndex: 1, pageSize: 30, totalRecordCount: 0};
+  @Output() pageChange = new EventEmitter<number>();
   onEditClick(recordToEdit: TModel, indexOfEdit: number){
     this.editIndex = indexOfEdit;
     this.editIndexChange.emit(this.editIndex);

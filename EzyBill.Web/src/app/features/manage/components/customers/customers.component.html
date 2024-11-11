@@ -12,7 +12,9 @@
            [editIndex]="computedEditIndexInput()"
            (editIndexChange)="customerTableEditIndexSignal.set($event)"
            (editClick)="onCustomerTableEditClick()"
-           [loading]="customerTableLoadingSignal()">
+           [loading]="customerTableLoadingSignal()"
+           [pagingPageQuery]="pageQuery"
+           (pageChange)="onPageChange($event)">
 </app-table>
 <app-modal [show]="!shouldCloseNewCustomerModalSignal()"
            (showChange)="showNewCustomerModalSignal.set($event);"

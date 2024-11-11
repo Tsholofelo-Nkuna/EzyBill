@@ -76,11 +76,12 @@ namespace EzyBill.BLL.Services
                 }
             }
             totalRecordCount = customerQuery.Count();
-            var customers = customerQuery
+            var customers = customerQuery.OrderByDescending(x => x.ModifiedOn)
+                .ThenByDescending(x => x.CreatedOn)
                 .Skip((pageQuery.PageIndex -1)*pageQuery.PageSize)
                 .Take(pageQuery.PageSize)
                 .ToList();
-            return customerQuery
+            return customers
                 .Select(x => new CustomerDto { Email = x.Email, Phone = x.Phone, Id = x.Id, Name = x.Name, });
         }
     }

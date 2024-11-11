@@ -9,7 +9,7 @@ using System.Text.Json;
 namespace EzyBill.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController, Authorize(AuthenticationSchemes = "gitOuth")]
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;

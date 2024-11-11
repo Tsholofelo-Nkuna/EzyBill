@@ -11,12 +11,12 @@ export type CustomersViewBusyIndicator = {
     saveNewCustomerDone?: boolean
 };
 
-export type CustomersViewState = {customers: ICustomerDto[]} & CustomersViewBusyIndicator;
+export type CustomersViewState = {customers: ICustomerDto[], totalRecordCount?:number} & CustomersViewBusyIndicator;
 
-let initState: CustomersViewState = {customers: [], saveNewCustomerDone:true};
+let initState: CustomersViewState = {customers: [], saveNewCustomerDone:true, totalRecordCount:0};
 export const customerReducer = createReducer(initState,
   on(fecthCustomersComplete, (state, {response}) =>  {
-    return  ({...state, customers: [...response.data], customerFetchDone:true})
+    return  ({...state, customers: [...response.data], customerFetchDone:true, totalRecordCount: response.totalRecordCount})
   }),
   on(fetchCustomers, (state) => ({...state, customerFetchDone: false})),
   on(updateCustomer, state => ({...state, customerUpdateDone: false})),

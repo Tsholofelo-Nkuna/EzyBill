@@ -1,6 +1,11 @@
 <div class="container">
   <div class="bg-body-tertiary rounded my-2 p-2">
-    <div class="my-2"><button class="btn btn-primary" (click)="newClick.emit()">New</button></div>
+    <div class="my-2 d-flex justify-content-between">
+      <div><button class="btn btn-primary" (click)="newClick.emit()">New</button></div>
+      <div>
+         <ng-container *ngTemplateOutlet="paginator; context {$implicit: pagingPageQuery}"></ng-container>
+      </div>
+    </div>
     <table class="table position-relative" [class.opacity-75] ="loading">
       <div *ngIf="loading"  class="spinner-border position-absolute top-50 end-50 text-primary opacity-100"></div>
       <thead>
@@ -28,6 +33,9 @@
         </tr>
       </tbody>
     </table>
+    <div class="d-flex flex-row-reverse">
+      <ng-container *ngTemplateOutlet="paginator; context {$implicit: pagingPageQuery}"></ng-container>
+    </div>
   </div>
 </div>
 
@@ -42,4 +50,13 @@
       </ng-container>
     </ng-container>
   </ng-container>
+</ng-template>
+
+<ng-template #paginator let-pagingPageQuery>
+  <ngb-pagination
+                  [collectionSize]="pagingPageQuery.totalRecordCount"
+                  [(page)]="pagingPageQuery.pageIndex"
+                  [maxSize] ="5"
+                  [pageSize]="pagingPageQuery.pageSize"
+                  (pageChange)="pageChange.emit($event)"></ngb-pagination>
 </ng-template>
