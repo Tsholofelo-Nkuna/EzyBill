@@ -100,7 +100,7 @@ namespace EzyBill.API
                     config.ClientSecret = "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";
                     config.ResponseType = OpenIdConnectResponseType.IdTokenToken;
                     config.ResponseMode = OpenIdConnectResponseMode.Query;
-                    config.CallbackPath = "https://tsholofelo.growthlytix.co.za/api/oauth/google-cb";
+                    config.CallbackPath = "/api/oauth/google-cb";
 
 
                 });
