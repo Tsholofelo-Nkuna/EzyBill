@@ -1,5 +1,7 @@
 ﻿using EzyBill.BLL.Interfaces;
 using EzyBill.BLL.Models.DataTranserObjects;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +11,7 @@ using System.Text.Json;
 namespace EzyBill.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize(AuthenticationSchemes = "gitOuth")]
+    [ApiController, Authorize(AuthenticationSchemes = "OIDC")]
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;

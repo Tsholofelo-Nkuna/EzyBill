@@ -7,9 +7,11 @@ using EzyBill.DAL;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -47,16 +49,15 @@ namespace EzyBill.API
             builder.Services.AddScoped<ICurrentUserContext<string>, CurrentUserContext>();
             builder.Services.AddEzyBillServices();
 
-           
-           
+
+
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,options =>
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
 
 
                     var jwtService = new JwtService(Options.Create(jwtops));
                     options.TokenValidationParameters = jwtService.TokenValidationParameters;
-
 
                     options.Events = new JwtBearerEvents()
                     {
@@ -86,28 +87,25 @@ namespace EzyBill.API
                                     }
                                 }
                             }
-                            else
-                            {
-                                string tkn = jwtService.GenerateToken(new List<Claim> { new Claim(JwtRegisteredClaimNames.Name, "Admin") }, TimeSpan.FromMinutes(5));
-                               //context.Request.Headers.Authorization = $"Bearer {tkn}";
-                            }
+
 
                             return Task.CompletedTask;
                         }
                     };
                 })
-                .AddOAuth("gitOuth", config =>
+                .AddOpenIdConnect("OIDC", config =>
                 {
+                    config.Authority = "https://accounts.google.com";
+                    config.ClientId = "525351881996-hjlqjuh97p9r76gb9pinm0p0ln0srvm3.apps.googleusercontent.com";
+                    config.ClientSecret = "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";
+                    config.ResponseType = OpenIdConnectResponseType.IdTokenToken;
+                    config.ResponseMode = OpenIdConnectResponseMode.Query;
+                    config.CallbackPath = "https://tsholofelo.growthlytix.co.za/api/oauth/google-cb";
 
-                    config.ClientId = "Ov23liWAVMK9rirLlP7F";
-                    config.ClientSecret = "63597633f13b64f6b0f85941de2efd0e86df1266";
-                    config.CallbackPath = "/api/OAuth/git-cb";
-                    config.TokenEndpoint = "https://github.com/login/oauth/access_token";
-                    config.AuthorizationEndpoint = "/api/oauth/authorize";
-                    config.UserInformationEndpoint = "https://api.github.com/user";
 
                 });
-            builder.Services.AddControllers();
+         
+            builder.Services.AddControllersWithViews();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

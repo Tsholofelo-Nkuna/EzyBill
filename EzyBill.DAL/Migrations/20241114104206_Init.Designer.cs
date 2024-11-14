@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EzyBill.DAL.Migrations
 {
     [DbContext(typeof(WebDbContext))]
-    [Migration("20241029164257_FixCustomerEntity")]
-    partial class FixCustomerEntity
+    [Migration("20241114104206_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

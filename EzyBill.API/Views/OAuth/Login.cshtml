@@ -1,0 +1,24 @@
+﻿@using EzyBill.API.Models.Login;
+@model LoginViewModel;
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+
+}
+
+<form class="container" method="post">
+    
+    <div>
+        <label class="form-label">@Html.DisplayNameFor(m => m.Username)</label>
+        <input name="@nameof(Model.Username)" class="form-control"/>
+    </div>
+    <div>
+        <label class="form-label">@Html.DisplayNameFor(m => m.Password)</label>
+        <input name="@nameof(Model.Password)" class="form-control" />
+    </div>
+    <div class="container-fluid my-2">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+   
+</form>
+
