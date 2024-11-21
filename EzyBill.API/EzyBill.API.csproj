@@ -20,4 +20,8 @@
     <ProjectReference Include="..\EzyBill.BLL\EzyBill.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\DataTransferObjects\" />
+  </ItemGroup>
+
 </Project>

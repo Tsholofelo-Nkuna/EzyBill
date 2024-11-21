@@ -1,4 +1,5 @@
 
+using EzyBill.API.Models.Auth;
 using EzyBill.BLL;
 using EzyBill.BLL.Interfaces;
 using EzyBill.BLL.Models.Auth;
@@ -35,6 +36,7 @@ namespace EzyBill.API
                     pC.AllowAnyHeader();
                 });
             });
+            builder.Logging.AddProvider(new FileLoggingProvider());
             var jwtops = new JwtOptions
             {
                 Issuer = builder.Configuration["JwtOptions:Issuer"] ?? string.Empty,
@@ -51,7 +53,8 @@ namespace EzyBill.API
 
 
 
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie()
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
 
@@ -87,24 +90,21 @@ namespace EzyBill.API
                                     }
                                 }
                             }
-
-
                             return Task.CompletedTask;
                         }
                     };
                 })
-                .AddOpenIdConnect("OIDC", config =>
+                .AddOpenIdConnect(AuthSchemes.GoogleOidc, config =>
                 {
                     config.Authority = "https://accounts.google.com";
                     config.ClientId = "525351881996-hjlqjuh97p9r76gb9pinm0p0ln0srvm3.apps.googleusercontent.com";
                     config.ClientSecret = "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";
                     config.ResponseType = OpenIdConnectResponseType.IdTokenToken;
-                    config.ResponseMode = OpenIdConnectResponseMode.Query;
-                    config.CallbackPath = "/api/oauth/google-cb";
-
+                    config.ResponseMode = OpenIdConnectResponseMode.FormPost;
+                    config.CallbackPath = "/api/oauth/GoogleCallBack";
 
                 });
-         
+
             builder.Services.AddControllersWithViews();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

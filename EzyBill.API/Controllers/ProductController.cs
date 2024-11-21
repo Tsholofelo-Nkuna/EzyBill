@@ -1,4 +1,5 @@
-﻿using EzyBill.BLL.Interfaces;
+﻿using EzyBill.API.Models.Auth;
+using EzyBill.BLL.Interfaces;
 using EzyBill.BLL.Models.DataTranserObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +9,7 @@ using System.Text.Json;
 namespace EzyBill.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController, Authorize(AuthenticationSchemes = AuthSchemes.GoogleOidc)]
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;

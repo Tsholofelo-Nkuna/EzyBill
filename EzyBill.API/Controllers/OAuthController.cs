@@ -1,12 +1,14 @@
 ﻿using Azure.Core;
-using EzyBill.API.Models.Login;
+using EzyBill.API.Models.ViewModels.Login;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Mono.TextTemplating;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using System.Text.Json;
 
 namespace EzyBill.API.Controllers
 {
@@ -15,21 +17,28 @@ namespace EzyBill.API.Controllers
     public class OAuthController : Controller
     {
         private readonly ILogger<OAuthController> _logger;
-        public OAuthController(ILogger<OAuthController> logger) { 
+        private readonly IConfiguration _configuration;
+        public OAuthController(ILogger<OAuthController> logger, IConfiguration configuration) { 
           this._logger = logger;
+          this._configuration = configuration;
         }
-        [HttpGet("google-cb")]
-        public void GoogleCallBack(string access_token, string token_type, string id_token, string state)
+        [HttpPost("[action]")]
+        public void GoogleCallBack()
         {
 
             try
             {
-                _logger.LogInformation($"Inputs:\n{access_token}\n{token_type}\n{id_token}\n{state}");
-               
+                this._logger.LogInformation(Request.Form.ToString());
+                var payload = Request.Form;
+                var userEndPoint = this._configuration["OIDC:Google:userinfo_endpoint"];
+                var accessToken = payload.ContainsKey("access_token") ? payload["access_token"].ToString() : string.Empty;
+                var idToken = payload.ContainsKey("id_token") ? payload["id_token"].ToString() : string.Empty;
+                
             }
             catch (Exception ex)
             {
-                this._logger.LogError(ex, $"Inputs:\n{access_token}\n{token_type}\n{id_token}\n{state}");
+                this._logger.LogError(ex, $"Input:\n {JsonSerializer.Serialize(Request.Form)}");
+                //return "";
                
             }
         }

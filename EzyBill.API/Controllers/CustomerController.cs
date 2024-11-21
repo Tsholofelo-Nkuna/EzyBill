@@ -1,4 +1,5 @@
-﻿using EzyBill.BLL.Interfaces;
+﻿using EzyBill.API.Models.Auth;
+using EzyBill.BLL.Interfaces;
 using EzyBill.BLL.Models.DataTranserObjects;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -11,7 +12,7 @@ using System.Text.Json;
 namespace EzyBill.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize(AuthenticationSchemes = "OIDC")]
+    [ApiController, Authorize(AuthenticationSchemes = AuthSchemes.GoogleOidc)]
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;
